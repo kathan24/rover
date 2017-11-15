@@ -1,0 +1,46 @@
+CREATE TABLE IF NOT EXISTS "sitter" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT,
+    "photoUrl" TEXT,
+    "phone" TEXT,
+    "email" TEXT,
+    "rating_score" NUMBER,
+    "number_of_reviews" NUMBER,
+    "overall_rank" NUMBER
+);
+
+
+CREATE TABLE IF NOT EXISTS "user" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT,
+    "photoUrl" TEXT,
+    "phone" TEXT,
+    "email" TEXT
+);
+
+
+CREATE TABLE IF NOT EXISTS "appointment" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "userId" NUMBER,
+    "sitterId" NUMBER,
+    "rating" NUMBER,
+    "startDate" DATE,
+    "endDate" DATE,
+    "review" TEXT,
+    FOREIGN KEY(userId) REFERENCES user(id),
+    FOREIGN KEY(sitterId) REFERENCES sitter(id)
+);
+
+
+CREATE TABLE IF NOT EXISTS "pet" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT,
+    "userId" NUMBER,
+    "breed" TEXT,
+    "size" NUMBER,
+    FOREIGN KEY(userId) REFERENCES user(id),
+    CONSTRAINT temp UNIQUE (name, userId)
+);
+
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_sitter_overall_rank ON sitter (overall_rank);
